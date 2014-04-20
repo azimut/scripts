@@ -3,10 +3,9 @@
 mkdir -p tmp
 cd tmp
 
-rm -f screen-*.png screen.gif
+rm -f *.png *.gif
 
-MINUTES=1
-END=$((MINUTES * 60)) # seconds
+END=$((30)) # seconds
 
 for index in $(seq -w 1 $END); do
     import -window root -resize 320x240 screen-$index.png
