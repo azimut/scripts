@@ -34,17 +34,14 @@ yplayer(){
   local y_video
 
 #  set -x
-  until [[ ! -z $y_video && $y_video =~ $regex_y_video ]]; do
-    y_video=$(youtube-dl --prefer-insecure -g "${yurl}")
-  done
-
-  until [[ ! -z "$(pgrep mplayer)" || ! -z $(pgrep youtube-dl) ]]; do
-    mplayer -vo gl  -vfm ffmpeg -lavdopts lowres=0:fast:skiploopfilter=all \
-            -cache 8146 \
-            -cache-min 20 \
-            -prefer-ipv4 \
-            -framedrop \
-            "${y_video}" </dev/null >/dev/null 2>&1 &
+  until [[ ! -z "$(pgrep mpv)" ]]; do
+     mpv --ytdl --ytdl-format 18 "${yurl}" </dev/null > /dev/null 2>&1 &
+#    mplayer -vo gl  -vfm ffmpeg -lavdopts lowres=0:fast:skiploopfilter=all \
+#            -cache 8146 \
+#            -cache-min 20 \
+#            -prefer-ipv4 \
+#            -framedrop \
+#            "${y_video}" </dev/null >/dev/null 2>&1 &
   
     disown
     sleep 10 # idle time to make sure the mplayer process didn't died
@@ -57,7 +54,7 @@ yplayer(){
 # OUTPUT: none
 queue(){
   while :; do
-    if [[ -z "$(pgrep mplayer)" &&  -s $TEMP_FILE ]]; then
+    if [[ -z "$(pgrep mpv)" &&  -s $TEMP_FILE ]]; then
       yplayer "$(head -n1 $TEMP_FILE)"
       sed -i '1d' $TEMP_FILE
     fi
