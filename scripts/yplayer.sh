@@ -22,10 +22,10 @@ check_in_path(){
   }
 }
 
-check_in_path 'mplayer'
+check_in_path 'mpv'
 check_in_path 'youtube-dl'
 
-# Description: launch a mplayer process
+# Description: launch a mpv process
 # INPUT: normal url of a video
 # OUTPUT: none
 yplayer(){
@@ -35,22 +35,16 @@ yplayer(){
 
 #  set -x
   until [[ ! -z "$(pgrep mpv)" ]]; do
-     mpv --ytdl --ytdl-format 18 "${yurl}" </dev/null > /dev/null 2>&1 &
-#    mplayer -vo gl  -vfm ffmpeg -lavdopts lowres=0:fast:skiploopfilter=all \
-#            -cache 8146 \
-#            -cache-min 20 \
-#            -prefer-ipv4 \
-#            -framedrop \
-#            "${y_video}" </dev/null >/dev/null 2>&1 &
+     mpv --volume=25 --ytdl --ytdl-format 18 "${yurl}" </dev/null > /dev/null 2>&1 &
   
     disown
-    sleep 10 # idle time to make sure the mplayer process didn't died
+    sleep 10 # idle time to make sure the mpv process didn't died
 #    set +x
   done
 }
 
-# Description: if no "mplayer" process is found, send the url to the function in charge of spawn mplayer
-# INPUT: none / pgrep mplayer
+# Description: if no "mpv" process is found, send the url to the function in charge of spawn mpv
+# INPUT: none / pgrep mpv
 # OUTPUT: none
 queue(){
   while :; do
