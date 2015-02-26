@@ -35,7 +35,11 @@ yplayer(){
 
 #  set -x
   until [[ ! -z "$(pgrep mpv)" ]]; do
-     mpv --volume=25 --ytdl --ytdl-format 18 "${yurl}" </dev/null > /dev/null 2>&1 &
+    mpv --volume=25 \
+        --no-resume-playback \
+        --framedrop=vo \
+        --ytdl \
+        --ytdl-format 18 "${yurl}" </dev/null > /dev/null 2>&1 &
   
     disown
     sleep 10 # idle time to make sure the mpv process didn't died
