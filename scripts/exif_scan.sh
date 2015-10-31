@@ -16,6 +16,7 @@ exif.get(){
     exif --extract-thumbnail -- "$@"
     exiftool "$@"
     exiftags -a "$@"
+    hachoir-metadata --verbose --level=9 --quality=1.0 "$@"
     { set +x; } &> /dev/null
   } 2>&1
 }
