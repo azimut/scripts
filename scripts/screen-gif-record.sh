@@ -5,12 +5,13 @@ cd tmp
 
 rm -f *.png *.gif
 
-END=$((30)) # seconds
+END=$((40)) # seconds
 
 for index in $(seq -w 1 $END); do
-    import -window root -resize 320x240 screen-$index.png
+    #import -window root -resize 320x240 screen-$index.png
+    import -window root -resize 480x360 screen-$index.png
     echo $index
-    sleep 1 # one image per second
+    sleep .1 # one image per second
 done
 
 #delay=60 # realtime

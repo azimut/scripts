@@ -7,6 +7,7 @@ set -o pipefail
 
 for track in *.mp3; do
     title="$(echo "$track" | cut -f1 -d'-')"
+    title="$(echo "$track" | rev | cut -b17- | rev)"
     [[ $title == *mp3 ]] && continue
     set -x
     id3ted --delete-all "$track"

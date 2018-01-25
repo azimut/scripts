@@ -39,6 +39,7 @@ yplayer(){
         --no-resume-playback \
         --framedrop=vo \
         --ytdl \
+        -ao jack \
         --ytdl-format 18 "${yurl}" </dev/null > /dev/null 2>&1 &
   
     disown
