@@ -6,6 +6,9 @@ LOGFILE="${HOME}/$(basename $0).log"
 URL="${1}"
 UA='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0'
 
+# Send STDERR also to LOGFILE
+exec 2> >(tee --append "${LOGFILE}")
+
 has_cloudflare() {
 	local url="${1}"
 	dig SOA +multiline "${url}" | grep cloudflare
