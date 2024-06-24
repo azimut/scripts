@@ -2,7 +2,7 @@
 
 set -exuo pipefail
 
-LOGFILE="${HOME}/weblauncher.log"
+LOGFILE="${HOME}/$(basename $0).log"
 URL="${1}"
 UA='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0'
 
@@ -77,27 +77,27 @@ case "${URL,,}" in
 *http*://gyazo.com*) # catch things without an extension and add one
 	download_and_show "${URL}.jpg" ;;
 *news.ycombinator.com*)
-	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="${HOME}/bin/weblauncher" \
+	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 		hackerview -x -c 100 -t 15s "${URL}"
 	;;
 *twitter.com*)
-	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$HOME/bin/weblauncher" \
+	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 		twitterview -x -t 10s -A "${UA}" "${URL}"
 	;;
 *lainchan.org*)
-	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$HOME/bin/weblauncher" \
+	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 		vichanview -x "${URL}"
 	;;
 *wired-7.org*)
-	SPAWNER="$HOME/bin/weblauncher" \
+	SPAWNER="$0" \
 		vichanview -a=false -x "${URL}"
 	;;
 *lobste.rs*)
-	SPAWNER="$HOME/bin/weblauncher" \
+	SPAWNER="$0" \
 		lobstersview -x "${URL}"
 	;;
 *reddit.com/r/*)
-	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$HOME/bin/weblauncher" \
+	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 		redditview -x -t 20s "${URL}"
 	;;
 *boards.4channel.org* | *boards.4chan.org*)
@@ -109,7 +109,7 @@ case "${URL,,}" in
 		w3m -o "user_agent=${UA}" "${URL/boards.4chan.org/desuarchive.org}"
 		stty cols "${old_cols}"
 	else
-		HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$HOME/bin/weblauncher" \
+		HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 			fourchanview -x "${URL}"
 	fi
 	;;
@@ -130,7 +130,7 @@ case "${URL,,}" in
 		"480p,720p,1080p,worst" &
 	;;
 */t/*)
-	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$HOME/bin/weblauncher" \
+	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 		discourseview -x -t 20s "${URL}"
 	;;
 *)
