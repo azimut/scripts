@@ -1,8 +1,9 @@
 #!/bin/bash
 #
-# Description: generates a list of .mp3 links for musicforprogramming.net
+# Description: returns a list of .mp3 links for musicforprogramming.net
 #
-pup -f index.html '#sapper div a text{}' |
+curl -s 'https://musicforprogramming.net/latest/' |
+	pup '#sapper div a text{}' |
 	sed '/^[0-9]/!d
          s/^0//
          s/: /-/
