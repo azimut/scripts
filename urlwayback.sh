@@ -1,10 +1,12 @@
 #!/bin/sh -eu
 
-# Description: Returns the oldest url available
 # See: https://archive.org/help/wayback_api.php
 
-err() { echo "[ERROR]: $*" >&2; }
+err() { printf "ERROR: %s\n\n" "$*" >&2; }
 usage() {
+	echo "Returns a snapshot for the URL provided, from the WaybackMachine."
+	echo "Defaults to given the oldest available."
+	echo
 	echo "Usage:"
 	printf '\t%s URL [ NEW? ]\n' "$(basename $0)"
 }
