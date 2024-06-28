@@ -13,5 +13,5 @@ usage() {
 [[ $1 != *playlist* ]] && err "invalid url provided" && usage && exit
 
 mpv --ytdl-format=bestaudio \
-	--ytdl-raw-options='playlist-random=,lazy-playlist=' \
+	--ytdl-raw-options='playlist-random=' \
 	"$1"
