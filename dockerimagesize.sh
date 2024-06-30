@@ -15,4 +15,4 @@ usage() {
 
 docker manifest inspect "$1" |
 	jq '.layers | [.[].size] | add' |
-	numfmt --to=iec-i
+	numfmt --to=iec
