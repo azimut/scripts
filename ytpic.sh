@@ -15,7 +15,7 @@ err() { echo -e "ERROR: $*\n" >&2; }
 video_url="$1"
 timestamp="$2"
 
-ffmpeg -hide_banner -ss "${timestamp}" \
+ffmpeg -nostdin -hide_banner -ss "${timestamp}" \
 	-i "$(youtube-dl -f bestvideo --get-url "${video_url}")" \
 	-vframes 1 \
 	-q:v 2 \
