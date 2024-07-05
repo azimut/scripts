@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-warn '[*] Starting...'
-
 missings = ENV['PATH'].split(':').reject { File.directory? _1 }.sort
 
 if missings.empty?
