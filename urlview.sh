@@ -136,7 +136,7 @@ case "${URL,,}" in
 	HTTP_PROXY="socks5://127.0.0.1:9050" SPAWNER="$0" \
 		discourseview -x -t 20s "${URL}"
 	;;
-*)
+http*)
 	domain=${URL#*://}
 	domain=${domain%%/*}
 	old_cols="$(tput cols)"
@@ -148,5 +148,8 @@ case "${URL,,}" in
 		torsocks rdrview -B w3m "${URL}"
 	fi
 	stty cols "${old_cols}"
+	;;
+*)
+	xdg-open "${URL}"
 	;;
 esac
