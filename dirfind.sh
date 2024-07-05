@@ -1,3 +1,3 @@
 #!/bin/bash
 set -eo pipefail
-find . -xdev -type f | fzf | xargs -r urlview.sh
+urlview.sh "$(find . -xdev -type f | fzf)"
