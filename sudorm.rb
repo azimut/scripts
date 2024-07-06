@@ -2,16 +2,18 @@
 
 require 'shellwords'
 
-abort('Wrong number of arguments.') unless ARGV.length == 1
+abort('Invalid number of arguments.') if ARGV.length <= 2
 abort('File does not exits.') unless File.exist?(ARGV[0])
 abort('Argument is not a file.') unless File.file?(ARGV[0])
 
 path = File.expand_path(ARGV[0])
+safepath = path.shellescale
+cmd = ARGV[1..].map(&:shellescape).join(" ")
 
-puts "[*] Deleting #{path}"
+puts "[*] running #{cmd} ON #{path}"
 if File.owned? path
-  system("rm -vf #{path.shellescape}")
+  system("#{cmd} #{safepath}", exception: true)
 else
-  system("pkexec rm -vf #{path.shellescape}")
+  system("pkexec #{cmd} #{safepath}", exception: true)
 end
 puts '[*] Done!'
