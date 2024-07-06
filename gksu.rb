@@ -7,7 +7,7 @@ abort('File does not exits.') unless File.exist?(ARGV[0])
 abort('Argument is not a file.') unless File.file?(ARGV[0])
 
 path = File.expand_path(ARGV[0])
-safepath = path.shellescale
+safepath = path.shellescape
 cmd = ARGV[1..].map(&:shellescape).join(" ")
 
 puts "[*] running #{cmd} ON #{path}"
