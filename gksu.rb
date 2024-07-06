@@ -8,12 +8,14 @@ abort('Argument is not a file.') unless File.file?(ARGV[0])
 
 path = File.expand_path(ARGV[0])
 safepath = path.shellescape
-cmd = ARGV[1..].map(&:shellescape).join(" ")
+cmd = ARGV[1..].map(&:shellescape).join(' ')
 
 puts "[*] running #{cmd} ON #{path}"
 if File.owned? path
   system("#{cmd} #{safepath}", exception: true)
+elsif system('sudo -n true')
+  system("sudo #{cmd} #{safepath}", exception: true)
 else
-  system("pkexec #{cmd} #{safepath}", exception: true)
+  system("zenity --password | sudo -S #{cmd} #{safepath}", exception: true)
 end
 puts '[*] Done!'
