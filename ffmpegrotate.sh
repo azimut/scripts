@@ -18,6 +18,9 @@ seconds() {
 	ffprobe -loglevel error -hide_banner -of csv=p=0 -show_entries format=duration "$1" | round
 }
 
+cleanup() { rm -f extract_tmp*.jpg; }
+trap cleanup EXIT
+
 [[ $# -ne 1 ]] && usage "missing argument"
 [[ ! -f $1 ]] && usage "file does not exists"
 
@@ -51,7 +54,6 @@ case "${img}" in
 	;;
 *) err "nothing picked..." ;;
 esac
-rm -f extract_tmp*.jpg
 
 # 2: generate video
 filename="$(basename "${video}")"
