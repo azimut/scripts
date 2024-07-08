@@ -7,7 +7,7 @@ from urllib.parse import urlparse, urldefrag
 from urllib.request import urlopen
 
 def usage():
-    print("List external links in an url.")
+    print("List internal and external links in an url.")
     print("Usage:")
     print(f"\t{os.path.basename(sys.argv[0])} URL")
 
