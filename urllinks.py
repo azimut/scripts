@@ -21,7 +21,7 @@ def main():
 
     for a in soup.find_all('a'):
         href = a.get('href')
-        if not href:
+        if not href or href.startswith("#"):
             continue
         if urlparse(href).scheme:
             link, _ = urldefrag(href)
