@@ -6,7 +6,7 @@ err() { echo "ERROR: $*" >&2; }
 usage() {
 	echo -e "yt-dlp flag wrapper to download playlists of videos"
 	echo "Usage:"
-	echo -e "\t$(basename $0) [-S] [-I] [-A] [-r RATE] [-s START] [-v MAXHEIGHT] URL"
+	echo -e "\t$(basename $0) [-SIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL"
 }
 
 OPTS=()
