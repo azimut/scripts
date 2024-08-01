@@ -19,15 +19,14 @@ Usage:
 EOF
 }
 
-OPTS=()
 OPTS=(--format='bestvideo+bestaudio')
 while getopts ":hSIAv:s:r:" arg; do
 	case $arg in
 	h) echo "help" ;;
 	S) OPTS+=(--write-subs --sub-langs 'en.*,es.*') ;;
 	I) OPTS+=(--output='%(playlist_index)03d-%(title)s[%(id)s].%(ext)s') ;;
-	A) OPTS=(${OPTS/bestaudio/bestaudio[asr<40k]}) ;;
-	v) OPTS=(${OPTS/bestvideo/bestvideo[height<$OPTARG]}) ;;
+	A) OPTS=(${OPTS[@]/bestaudio/bestaudio[asr<40k]}) ;;
+	v) OPTS=(${OPTS[@]/bestvideo/bestvideo[height<$OPTARG]}) ;;
 	r) OPTS+=(--limit-rate="${OPTARG}") ;;
 	s) OPTS+=(--playlist-start="${OPTARG}") ;;
 	:)
