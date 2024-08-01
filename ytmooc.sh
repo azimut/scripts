@@ -4,9 +4,19 @@ set -eu
 
 err() { echo "ERROR: $*" >&2; }
 usage() {
-	echo -e "yt-dlp flag wrapper to download playlists of videos"
-	echo "Usage:"
-	echo -e "\t$(basename $0) [-SIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL"
+	cat <<EOF
+yt-dlp flag wrapper to download playlists of videos
+
+Usage:
+   $(basename $0) [-SIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL
+
+ -S     Download subtitles.
+ -I     Add playlist number in filename.
+ -A     Download a lower quality audio.
+ -r     Set maximum download rate.
+ -s 2   Set starting index number in playlist.
+ -v 720 Set max height of the video to download.
+EOF
 }
 
 OPTS=()
