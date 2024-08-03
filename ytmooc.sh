@@ -10,12 +10,12 @@ yt-dlp flag wrapper to download playlists of videos
 Usage:
    $(basename $0) [-SIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL
 
- -S     Download subtitles.
- -I     Add playlist number in filename.
- -A     Download a lower quality audio.
- -r     Set maximum download rate.
- -s 2   Set starting index number in playlist.
- -v 720 Set max height of the video to download.
+ -S       Download subtitles.
+ -I       Add playlist number in filename.
+ -A       Download a lower quality audio.
+ -r       Set maximum download rate.
+ -s 2     Set starting index number in playlist.
+ -v 720   Set max height of the video to download.
 EOF
 }
 

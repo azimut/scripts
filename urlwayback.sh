@@ -4,11 +4,13 @@
 
 err() { printf "ERROR: %s\n\n" "$*" >&2; }
 usage() {
-	echo "Returns a snapshot for the URL provided, from the WaybackMachine."
-	echo "Defaults to given the oldest available."
-	echo
-	echo "Usage:"
-	printf '\t%s URL [ NEW? ]\n' "$(basename $0)"
+	cat <<EOF
+Returns a snapshot for the URL provided, from the WaybackMachine.
+Defaults to given the oldest available.
+
+Usage:
+    $(basename $0) URL [ RECENT? ]
+EOF
 }
 
 [ $# -lt 1 ] && err "missing URL argument" && usage && exit 22
