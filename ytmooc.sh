@@ -8,8 +8,9 @@ usage() {
 yt-dlp flag wrapper to download playlists of videos
 
 Usage:
-   $(basename $0) [-SIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL
+   $(basename $0) [-RSIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL
 
+ -R       Reverse playlist order.
  -S       Download subtitles.
  -I       Add playlist number in filename.
  -A       Download a lower quality audio.
@@ -20,9 +21,10 @@ EOF
 }
 
 OPTS=(--format='bestvideo+bestaudio')
-while getopts ":hSIAv:s:r:" arg; do
+while getopts ":hRSIAv:s:r:" arg; do
 	case $arg in
 	h) echo "help" ;;
+	R) OPTS+=(--playlist-reverse) ;;
 	S) OPTS+=(--write-subs --sub-langs 'en.*,es.*') ;;
 	I) OPTS+=(--output='%(playlist_index)03d-%(title)s[%(id)s].%(ext)s') ;;
 	A) OPTS=(${OPTS[@]/bestaudio/bestaudio[asr<40k]}) ;;
