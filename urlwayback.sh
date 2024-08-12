@@ -14,12 +14,12 @@ EOF
 }
 
 [ $# -lt 1 ] && err "missing URL argument" && usage && exit 22
-[ $# -gt 1 ] && TIMESTAMP='' || TIMESTAMP='&timestamp=19960101'
+[ $# -gt 1 ] && TIMESTAMP='' || TIMESTAMP='timestamp=19960101&'
 
 URL=${1%#*}     # remove url fragments
 URL=${URL#*://} # remove url proto
 
-curl -s "http://archive.org/wayback/available?url=${URL}${TIMESTAMP}" |
+curl -s "http://archive.org/wayback/available?${TIMESTAMP}url=${URL}" |
 	jq -r '.archived_snapshots.closest | .status + " " + .url' |
 	while read -r status url; do
 		case "${status}" in
