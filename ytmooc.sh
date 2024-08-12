@@ -14,7 +14,7 @@ Usage:
  -S       Download subtitles.
  -I       Add playlist number in filename.
  -A       Download a lower quality audio.
- -r       Set maximum download rate.
+ -r 300k  Set maximum download rate.
  -s 2     Set starting index number in playlist.
  -v 720   Set max height of the video to download.
 EOF
