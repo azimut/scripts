@@ -1,9 +1,4 @@
 #!/bin/bash
-#
-# Description:
-#   used to reduce the size of a bunch of videos
-#   while keeping their directory structure
-#
 
 set -euo pipefail
 
@@ -14,9 +9,11 @@ info() {
 }
 
 usage() {
-	echo "Usage:"
-	echo "    $(basename $0) [-f VIDEO_FILTER] [-r FPS] [-s TIME_SKIP] [-t TIME_TRIM] SRCDIR"
-	exit 1
+	cat <<EOF
+Reduces the size of videos, while keeping their directory structure.
+Usage:
+    $(basename $0) [-f VIDEO_FILTER] [-r FPS] [-s TIME_SKIP] [-t TIME_TRIM] SRCDIR
+EOF
 }
 
 getduration() { ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$1" | cut -f1 -d'.'; } # TODO: handle float
@@ -25,23 +22,23 @@ sec2time() { date -d "@$*" -u '+%H:%M:%S'; }
 
 while getopts ":hs:f:r:t:" arg; do
 	case $arg in
-	h) usage ;;
+	h) usage && exit 0 ;;
 	f) FILTERS="$OPTARG" ;;
 	s) SKIP="$OPTARG" ;;
 	r) RATE="$OPTARG" ;;
 	t) TRIM="$OPTARG" ;;
-	*) usage ;;
+	*) usage && exit 22 ;; # EINVAL
 	esac
 done
 shift $((OPTIND - 1))
 
 [[ $# -ne 1 ]] && {
 	echo "ERROR: missing argument"
-	usage
+	usage && exit 22 # EINVAL
 }
 [[ ! -d ${1} ]] && {
 	echo "ERROR: src does not exists"
-	usage
+	usage && exit 2 # ENOENT
 }
 
 SRC="$(realpath "${1}")"
