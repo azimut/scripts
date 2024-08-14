@@ -16,7 +16,7 @@ EOF
 BASE='https://archive.is/timegate'
 URL="${1%#*}" # remove url fragments
 
-curl -Ls -o /dev/null -w '%{http_code} %{url_effective}' "${BASE}/${URL}" |
+curl -Ls -o /dev/null -w '%{http_code} %{url_effective}\n' "${BASE}/${URL}" |
 	while read -r code effectiveurl; do
 		case "${code}" in
 		404)
