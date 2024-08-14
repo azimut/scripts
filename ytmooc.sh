@@ -20,7 +20,7 @@ Usage:
 EOF
 }
 
-OPTS=(--format='bestvideo+bestaudio')
+OPTS=(--format='bestvideo+bestaudio' --yes-playlist)
 while getopts ":hRSIAv:s:r:" arg; do
 	case $arg in
 	h) echo "help" ;;
