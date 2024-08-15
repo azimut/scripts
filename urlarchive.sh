@@ -2,7 +2,7 @@
 
 set -eu
 
-err() { echo "ERROR:" >&2; }
+err() { echo "ERROR: $1" >&2; }
 usage() {
 	cat <<EOF
 Tries to get the snapshot from archive.is.
