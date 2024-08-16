@@ -5,25 +5,30 @@ set -eu
 err() { echo "ERROR: $*" >&2; }
 usage() {
 	cat <<EOF
-yt-dlp flag wrapper to download playlists of videos
 
-Usage:
-   $(basename $0) [-RSIA] [-r RATE] [-s START] [-v MAXHEIGHT] URL
+yt-dlp wrapper to download playlists of videos
 
- -R       Reverse playlist order.
- -S       Download subtitles.
- -I       Add playlist number in filename.
- -A       Download a lower quality audio.
- -r 300k  Set maximum download rate.
- -s 2     Set starting index number in playlist.
- -v 720   Set max height of the video to download.
+Usage
+   $(basename $0) [-RSIAh] [-r RATE] [-s START] [-v MAX_HEIGHT] <URL>
+
+Options:
+  <URL>           A Youtube playlist url.
+  -h              Shows this help.
+  -R              Reverse playlist order.
+  -S              Download subtitles.
+  -I              Add playlist number in filename.
+  -A              Download a lower quality audio.
+  -r RATE         Set maximum download rate.               eg: 300k
+  -s START        Set starting index number in playlist.   eg: 2
+  -v MAX_HEIGHT   Set max height of the video to download. eg: 720
+
 EOF
 }
 
 OPTS=(--format='bestvideo+bestaudio' --yes-playlist)
 while getopts ":hRSIAv:s:r:" arg; do
 	case $arg in
-	h) echo "help" ;;
+	h) usage && exit 0 ;;
 	R) OPTS+=(--playlist-reverse) ;;
 	S) OPTS+=(--write-subs --sub-langs 'en.*,es.*') ;;
 	I) OPTS+=(--output='%(playlist_index)03d-%(title)s[%(id)s].%(ext)s') ;;
