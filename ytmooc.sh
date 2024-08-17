@@ -21,7 +21,6 @@ Options:
   -r RATE         Set maximum download rate.               eg: 300k
   -s START        Set starting index number in playlist.   eg: 2
   -v MAX_HEIGHT   Set max height of the video to download. eg: 720
-
 EOF
 }
 
