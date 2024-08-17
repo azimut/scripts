@@ -6,6 +6,7 @@ DEFAULT_FILTERS='scale=960:-1'
 DEFAULT_SKIP='00:00:00'
 DEFAULT_RATE='30'
 DEFAULT_ACHAN='1'
+DEFAULT_ARATE='22050'
 
 info() {
 	notify-send -t "$((5 * 1000))" -- \
@@ -16,14 +17,19 @@ info() {
 usage() {
 	cat <<EOF
 Reduces the size of videos, while keeping their directory structure.
-Usage:
-    $(basename $0) [-f VIDEO_FILTER] [-r FPS] [-s TIME] [-t TIME] [-a CHAN] SRCDIR
 
- -f FILTER  video filter to apply     default: ${DEFAULT_FILTERS}
- -r FPS     video frames per second   default: ${DEFAULT_RATE}
- -s TIME    beginning trim            default: ${DEFAULT_SKIP}
- -t TIME    ending trim               eg: 00:01:02
- -a CHAN    number of audio channels  default: ${DEFAULT_ACHAN}
+Usage
+    $(basename $0) [-h] [-f FILTER] [-r FPS] [-s TIME] [-t TIME] [-a CHAN] [-A ARATE] <SRCDIR>
+
+Options:
+  <SRCDIR>   directory that contains videos.
+  -h         Shows this help.
+  -f FILTER  video filter to apply     default: ${DEFAULT_FILTERS}
+  -r FPS     video frames per second   default: ${DEFAULT_RATE}
+  -s TIME    beginning trim            default: ${DEFAULT_SKIP}
+  -t TIME    ending trim               eg: 00:01:02
+  -a CHAN    number of audio channels  default: ${DEFAULT_ACHAN}
+  -A ARATE   audio rate.               default: ${DEFAULT_ARATE}
 EOF
 }
 
@@ -31,7 +37,7 @@ getduration() { ffprobe -v error -show_entries format=duration -of default=nopri
 time2sec() { date -d "1970-01-01T$* UTC" '+%s'; }
 sec2time() { date -d "@$*" -u '+%H:%M:%S'; }
 
-while getopts ":hs:f:r:t:a:" arg; do
+while getopts ":hs:f:r:t:a:A:" arg; do
 	case $arg in
 	h) usage && exit 0 ;;
 	f) FILTERS="$OPTARG" ;;
@@ -39,6 +45,7 @@ while getopts ":hs:f:r:t:a:" arg; do
 	r) RATE="$OPTARG" ;;
 	t) TRIM="$OPTARG" ;;
 	a) ACHAN="$OPTARG" ;;
+	A) ARATE="$OPTARG" ;;
 	*) usage && exit 22 ;; # EINVAL
 	esac
 done
@@ -58,6 +65,7 @@ FILTERS="${FILTERS:-$DEFAULT_FILTERS}"
 SKIP="${SKIP:-$DEFAULT_SKIP}"
 RATE="${RATE:-$DEFAULT_RATE}"
 ACHAN="${ACHAN:-$DEFAULT_ACHAN}"
+ARATE="${ARATE:-$DEFAULT_ARATE}"
 
 # Create DST directories
 find "${SRC}" -mindepth 1 -type d |
@@ -90,13 +98,13 @@ find "${SRC}" -type f \( -iname \*.mp4 -o -iname \*.mkv \) | sort |
 			continue
 		}
 		if [[ -z ${TRIM+x} ]]; then
-			ffbar -ss "${SKIP}" -i "${srcfile}" -r "${RATE}" -ac "${ACHAN}" -ar 22050 -vf "${FILTERS}" "${dstfile}" || {
+			ffbar -ss "${SKIP}" -i "${srcfile}" -r "${RATE}" -ac "${ACHAN}" -ar "${ARATE}" -vf "${FILTERS}" "${dstfile}" || {
 				rm -vf "${dstfile}"
 				exit 1
 			}
 		else
 			length="$(sec2time $(($(getduration "${srcfile}") - $(time2sec "${SKIP}") - $(time2sec "${TRIM}"))))"
-			ffbar -ss "${SKIP}" -t "${length}" -i "${srcfile}" -r "${RATE}" -ac "${ACHAN}" -ar 22050 -vf "${FILTERS}" "${dstfile}" || {
+			ffbar -ss "${SKIP}" -t "${length}" -i "${srcfile}" -r "${RATE}" -ac "${ACHAN}" -ar "${ARATE}" -vf "${FILTERS}" "${dstfile}" || {
 				rm -vf "${dstfile}"
 				exit 1
 			}
