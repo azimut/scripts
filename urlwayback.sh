@@ -18,6 +18,7 @@ EOF
 
 URL=${1%#*}     # remove url fragments
 URL=${URL#*://} # remove url proto
+URL=${URL%/}    # remove trailing slash
 
 curl -s "http://archive.org/wayback/available?${TIMESTAMP}url=${URL}" |
 	jq -r '.archived_snapshots.closest | .status + " " + .url' |
