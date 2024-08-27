@@ -1,23 +1,26 @@
 #!/bin/sh -eu
 
-# See: https://archive.org/help/wayback_api.php
-
+warn() { printf "WARNING: %s\n\n" "$*" >&2; }
 err() { printf "ERROR: %s\n\n" "$*" >&2; }
 usage() {
 	cat <<EOF
-Returns a snapshot for the URL provided, from the WaybackMachine.
-Defaults to given the oldest available.
+Using the WaybackMachine JSON API (https://archive.org/help/wayback_api.php)
+Returns a snapshot URL for the URL provided.
 
 Usage:
-    $(basename $0) URL [ RECENT? ]
+    $(basename $0) <URL> [LATEST]
+
+Options:
+  <URL>    the url to lookup
+  LATEST   flag, if present returns latest snapshot url
 EOF
 }
 
 [ $# -lt 1 ] && err "missing URL argument" && usage && exit 22
 [ $# -gt 1 ] && TIMESTAMP='' || TIMESTAMP='timestamp=19960101&'
 
-URL=${1%#*}     # remove url fragments
-URL=${URL#*://} # remove url proto
+URL=${1%#*}     # remove fragment
+URL=${URL#*://} # remove proto
 URL=${URL%/}    # remove trailing slash
 
 curl -s "http://archive.org/wayback/available?${TIMESTAMP}url=${URL}" |
@@ -26,11 +29,11 @@ curl -s "http://archive.org/wayback/available?${TIMESTAMP}url=${URL}" |
 		case "${status}" in
 		200) echo "${url}" ;;
 		"")
-			echo "ERROR: no snapshot found for url :(" >&2
+			err "no snapshot found for url :("
 			exit 61
 			;;
 		*)
-			echo "WARNING: found snapshot has http code ${status}" >&2
+			warn "found snapshot has http code ${status}"
 			echo "${url}"
 			;;
 		esac
