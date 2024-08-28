@@ -20,13 +20,14 @@ EOF
 }
 
 [ $# -lt 1 ] && usage && exit 22 # EINVAL
-[ $# -gt 1 ] && TIMESTAMP='' || TIMESTAMP='timestamp=19960101&'
+[ $# -gt 1 ] && TIMESTAMP='' || TIMESTAMP='19960101'
 
 URL=${1%#*}     # remove fragment
 URL=${URL#*://} # remove proto
-URL=${URL%/}    # remove trailing slash
 
-curl -s "http://archive.org/wayback/available?${TIMESTAMP}url=${URL}" |
+curl -Gs \
+	--data-urlencode "timestamp=${TIMESTAMP}" \
+	--data-urlencode "url=${URL}" 'http://archive.org/wayback/available' |
 	jq -r '.archived_snapshots.closest | .status + " " + .url' |
 	while read -r status url; do
 		case "${status}" in
