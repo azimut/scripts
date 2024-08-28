@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-set -eu
+set -euo pipefail
 
 warn() { printf "WARNING: %s\n\n" "$*" >&2; }
 err() { printf "ERROR: %s\n\n" "$*" >&2; }
