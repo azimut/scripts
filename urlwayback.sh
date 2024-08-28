@@ -19,15 +19,13 @@ Uses the WaybackMachine JSON API (https://archive.org/help/wayback_api.php)
 EOF
 }
 
-[ $# -lt 1 ] && usage && exit 22 # EINVAL
-[ $# -gt 1 ] && TIMESTAMP='' || TIMESTAMP='19960101'
+(($# < 1)) && usage && exit 22 # EINVAL
+(($# > 1)) && TIMESTAMP='' || TIMESTAMP='19960101'
 
 URL=${1%#*}     # remove fragment
 URL=${URL#*://} # remove proto
 
-curl -Gs \
-	--data-urlencode "timestamp=${TIMESTAMP}" \
-	--data-urlencode "url=${URL}" 'http://archive.org/wayback/available' |
+curl -Gs -d "timestamp=${TIMESTAMP}" --data-urlencode "url=${URL}" 'http://archive.org/wayback/available' |
 	jq -r '.archived_snapshots.closest | .status + " " + .url' |
 	while read -r status url; do
 		case "${status}" in
