@@ -9,7 +9,7 @@ usage() {
 yt-dlp wrapper to download playlists of videos
 
 Usage
-   $(basename $0) [-RSIAh] [-r RATE] [-s START] [-v MAX_HEIGHT] <URL>
+   $(basename $0) [-RSIAh] [-r RATE] [-s START] [-v MAX_HEIGHT] [-f FORMAT] <URL>
 
 Options:
   <URL>           A Youtube playlist url.
@@ -21,11 +21,12 @@ Options:
   -r RATE         Set maximum download rate.               eg: 300k
   -s START        Set starting index number in playlist.   eg: 2
   -v MAX_HEIGHT   Set max height of the video to download. eg: 720
+  -f FORMAT       Force remote format to download.         eg: mp3-v0, 18
 EOF
 }
 
 OPTS=(--format='bestvideo+bestaudio' --yes-playlist)
-while getopts ":hRSIAv:s:r:" arg; do
+while getopts ":hRSIAv:s:r:f:" arg; do
 	case $arg in
 	h) usage && exit 0 ;;
 	R) OPTS+=(--playlist-reverse) ;;
@@ -35,6 +36,7 @@ while getopts ":hRSIAv:s:r:" arg; do
 	v) OPTS=(${OPTS[@]/bestvideo/bestvideo[height<$OPTARG]}) ;;
 	r) OPTS+=(--limit-rate="${OPTARG}") ;;
 	s) OPTS+=(--playlist-start="${OPTARG}") ;;
+	f) OPTS+=(--format="${OPTARG}") ;;
 	:)
 		err "Mandatory argument missing for given flag $OPTARG"
 		usage
