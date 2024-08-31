@@ -18,6 +18,6 @@ PAGE="$2"
 [ ! -s "${FILE}" ] && err "Given file does NOT exist." && exit 1
 [[ ${FILE,,} != *pdf ]] && err "Given file is not a .pdf?" && exit 1
 
-OUTPUT="${FILE}.${PAGE}.png"
+OUTPUT="${FILE}.${PAGE}"
 
 pdftoppm "${FILE}" "${OUTPUT}" -png -f "${PAGE}" -singlefile
