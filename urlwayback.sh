@@ -3,7 +3,7 @@
 set -euo pipefail
 
 warn() { printf "WARNING: %s\n\n" "$*" >&2; }
-err() { printf "ERROR: %s\n\n" "$*" >&2; }
+err() { printf "ERROR: %s\n" "$*" >&2; }
 usage() {
 	cat >&2 <<EOF
 Returns a snapshot URL for the URL provided.
