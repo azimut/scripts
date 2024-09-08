@@ -17,7 +17,10 @@ URL="$1"
 echo "00: ${URL}"
 
 i=0
-torsocks curl -svo /dev/null -L "${URL}" 2>&1 | grep -i 'location:' |
-	while read -r _ _ location; do
-		printf '%02d: %s\n' "$((++i))" "${location}"
+torsocks curl -svo /dev/null -L "${URL}" 2>&1 | grep '^<' |
+	while read -r _ field value; do
+		case "${field,,}" in
+		"location:") printf '%02d: %s\n' "$((++i))" "${value}" ;;
+		"date:") echo "    ${value}" ;;
+		esac
 	done
