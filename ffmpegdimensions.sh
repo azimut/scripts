@@ -19,6 +19,6 @@ export -f getdimensions
 	exit 0
 }
 
-find . -name '*.mp4' -print0 | sort -zn |
+find . -regextype egrep -iregex '.*(mp4|mp3|webm)' -print0 | sort -zn |
 	xargs -I{} -n1 -0 -P2 -r \
 		bash -c 'getdimensions "{}"'
