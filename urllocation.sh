@@ -21,6 +21,6 @@ torsocks curl -svo /dev/null -L "${URL}" 2>&1 | grep '^<' |
 	while read -r _ field value; do
 		case "${field,,}" in
 		"location:") printf '%02d: %s\n' "$((++i))" "${value}" ;;
-		"date:") echo "    ${value}" ;;
+		"date:" | "last-modified:") printf '%18s %s\n' "${field}" "${value}" ;;
 		esac
 	done
