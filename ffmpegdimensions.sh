@@ -6,7 +6,7 @@ set -euo pipefail
 
 getdimensions() {
 	video="$1"
-	dimensions="$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${video}")"
+	dimensions="$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${video}" | head -1)"
 	printf '%5dx%-4d\t'"'"'%s'"'"'\n' \
 		"${dimensions%x*}" \
 		"${dimensions#*x}" \
