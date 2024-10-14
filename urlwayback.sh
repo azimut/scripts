@@ -25,7 +25,7 @@ EOF
 URL=${1%#*}     # remove fragment
 URL=${URL#*://} # remove proto
 
-curl -Gs -d "timestamp=${TIMESTAMP}" --data-urlencode "url=${URL}" 'http://archive.org/wayback/available' |
+curl -fGs -d "timestamp=${TIMESTAMP}" --data-urlencode "url=${URL}" 'http://archive.org/wayback/available' |
 	jq -r '.archived_snapshots.closest | .status + " " + .url' |
 	while read -r status url; do
 		case "${status}" in
