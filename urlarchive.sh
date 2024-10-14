@@ -20,12 +20,16 @@ curl -Ls -o /dev/null -w '%{http_code} %{url_effective}\n' "${BASE}/${URL}" |
 	while read -r code effectiveurl; do
 		case "${code}" in
 		404)
-			err "No archived :("
-			exit 1
+			err "404 :("
+			exit 2 # ENOENT
+			;;
+		429)
+			echo "${effectiveurl}"
 			;;
 		*)
-			echo "STATUS: ${code}"
-			echo "URL: ${effectiveurl}"
+			echo "STATUS: ${code}" >&2
+			echo "URL: ${effectiveurl}" >&2
+			exit 1
 			;;
 		esac
 	done
