@@ -80,7 +80,7 @@ find "${SRC}" -type f -not \( -iname \*.mp4 -o -iname \*.mkv \) |
 		[[ -f ${dstfile} ]] && {
 			continue
 		}
-		cp "${srcfile}" "${dstfile}"
+		cp -v "${srcfile}" "${dstfile}" | sed 's/.*-> //g'
 	done
 
 # Counter
