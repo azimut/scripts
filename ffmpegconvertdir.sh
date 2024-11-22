@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+PROGNAME="$(basename "${0}")"
 DEFAULT_FILTERS='scale=960:-1'
 DEFAULT_SKIP='00:00:00'
 DEFAULT_RATE='30'
@@ -10,7 +11,7 @@ DEFAULT_ARATE='22050'
 
 info() {
 	notify-send -t "$((5 * 1000))" -- \
-		"$(basename $0)" \
+		"${PROGNAME}" \
 		"<span color='#57dafd' font='20px'>${1}</span>"
 }
 
@@ -19,7 +20,7 @@ usage() {
 Reduces the size of videos, while keeping their directory structure.
 
 Usage
-    $(basename $0) [-h] [-f FILTER] [-r FPS] [-s TIME] [-t TIME] [-a CHAN] [-A ARATE] <SRCDIR>
+    ${PROGNAME} [-h] [-f FILTER] [-r FPS] [-s TIME] [-t TIME] [-a CHAN] [-A ARATE] <SRCDIR>
 
 Options:
   <SRCDIR>   directory that contains videos.
