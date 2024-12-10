@@ -7,7 +7,7 @@ usage() {
 Returns each url Location jump for the given URL.
 
 Usage:
-    $(basename $0) <URL>
+    $(basename "$0") <URL>
 EOF
 }
 
