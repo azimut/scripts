@@ -63,7 +63,7 @@ def main():
         raise Exception("missing url")
 
     setup()
-    thread = Thread(sys.argv[1])
+    thread = Thread(sys.argv[1].replace("\\", ""))
     thread.download()
     thread.load()
     for link in thread.get_media_links():
