@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import datetime
 import os
 import json
 import urllib
@@ -40,12 +41,14 @@ class Thread:
                         self.start = i
                         break
             self.end = len(self.posts)
-            fuck_offset = 20 # minimum number of posts before a FUCK
             for i in range(self.start, len(self.posts)):
                 post = self.posts[i]
-                if 'com' in post and post['com'] == "FUCK" and i > self.start + fuck_offset:
+                post_time = datetime.datetime.utcfromtimestamp(post['time'])
+                hour_offset = 5 # "puzzles unlock at midnight EST/UTC-5"
+                if post_time.hour - 5 == 0 and post_time.minute == 0:
                     self.end = i
-                    print(f"WARNING: exit early due f-limit ({fuck_offset})", file=sys.stderr)
+                    print(f"WARNING: exit early due change of day", file=sys.stderr)
+                    print(post, file=sys.stderr)
                     break
 
     def get_bigboy(self):
