@@ -45,6 +45,7 @@ class Thread:
                 post = self.posts[i]
                 if 'com' in post and post['com'] == "FUCK" and i > self.start + fuck_offset:
                     self.end = i
+                    print(f"WARNING: exit early due f-limit ({fuck_offset})", file=sys.stderr)
                     break
 
     def get_bigboy(self):
