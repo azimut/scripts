@@ -8,8 +8,15 @@ import sys
 from urllib.request import urlretrieve, Request
 from urllib.parse import urlparse, urldefrag, ParseResult
 
-URL = "https://boards.4chan.org/g/thread/103393964#p103398502"
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+
+def usage():
+    print("Usage:\n")
+    print(f"\t$ {os.path.basename(sys.argv[0])} [URLS]")
+    print()
+    print("Example URL:")
+    print("- https://boards.4chan.org/g/thread/103393964")
+    print("- https://boards.4chan.org/g/thread/103393964#p103398502")
 
 def setup():
     opener = urllib.request.build_opener()
@@ -63,15 +70,16 @@ class Thread:
                 if 'ext' in post]
 
 def main():
-    if len(sys.argv) != 2:
-        raise Exception("missing url")
-
+    if len(sys.argv) < 2:
+        usage()
+        sys.exit(1)
     setup()
-    thread = Thread(sys.argv[1].replace("\\", ""))
-    thread.download()
-    thread.load()
-    for link in thread.get_media_links():
-        print(link)
+    for url in sys.argv[1:]:
+        thread = Thread(url.replace("\\", ""))
+        thread.download()
+        thread.load()
+        for link in thread.get_media_links():
+            print(link)
 
 if __name__ == '__main__':
     main()
