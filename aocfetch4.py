@@ -44,10 +44,10 @@ class Thread:
             for i in range(self.start, len(self.posts)):
                 post = self.posts[i]
                 post_time = datetime.datetime.utcfromtimestamp(post['time'])
-                hour_offset = 5 # "puzzles unlock at midnight EST/UTC-5"
-                if post_time.hour - 5 == 0 and post_time.minute == 0:
+                timezone_offset = -5 # "puzzles unlock at midnight EST/UTC-5"
+                if i - self.start > 10 and post_time.hour + timezone_offset == 0 and post_time.minute == 0:
                     self.end = i
-                    print(f"WARNING: exit early due change of day", file=sys.stderr)
+                    print(f"WARNING: exit early ({i}) due change of day", file=sys.stderr)
                     print(post, file=sys.stderr)
                     break
 
