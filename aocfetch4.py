@@ -11,6 +11,7 @@ from urllib.parse import urlparse, urldefrag, ParseResult
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
 
 def usage():
+    print("Lists media links on a 4chan thread. If given, starts listing from given post.")
     print("Usage:\n")
     print(f"\t$ {os.path.basename(sys.argv[0])} [URLS]")
     print()
