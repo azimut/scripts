@@ -9,11 +9,9 @@ curl -s 'https://musicforprogramming.net/latest/' |
         '/^[0-9]/!d
          s/^0//
          s/: /-/
-         s/\./_/g
-         s/ /_/g
-         s/+/and/
-         s/[_]\+/_/g
-         s/^/music_for_programming_/
-         s/$/.mp3/
-         s#^#https://datashat.net/#' |
+         y/\. /__/
+         s/_\+/_/g
+         s/+/and/g
+         s#^#https://datashat.net/music_for_programming_#
+         s/$/.mp3/' |
     tr '[:upper:]' '[:lower:]'
