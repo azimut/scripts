@@ -1,10 +1,8 @@
 #!/bin/bash
-#
-# Description: returns a list of .mp3 links found in musicforprogramming.net
-#
 
 set -eo pipefail
 
+# Returns a list .mp3 links
 curl -s 'https://musicforprogramming.net/latest/' |
     pup '#sapper div a text{}' |
     sed --sandbox \
