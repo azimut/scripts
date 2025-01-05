@@ -1,10 +1,14 @@
 #!/bin/bash
 #
-# Description: returns a list of .mp3 links for musicforprogramming.net
+# Description: returns a list of .mp3 links found in musicforprogramming.net
 #
+
+set -eo pipefail
+
 curl -s 'https://musicforprogramming.net/latest/' |
-	pup '#sapper div a text{}' |
-	sed '/^[0-9]/!d
+    pup '#sapper div a text{}' |
+    sed --sandbox \
+        '/^[0-9]/!d
          s/^0//
          s/: /-/
          s/\./_/g
@@ -12,6 +16,6 @@ curl -s 'https://musicforprogramming.net/latest/' |
          s/+/and/
          s/[_]\+/_/g
          s/^/music_for_programming_/
-         s/$/.mp3/' |
-	tr '[:upper:]' '[:lower:]' |
-	sed 's#^#https://datashat.net/#'
+         s/$/.mp3/
+         s#^#https://datashat.net/#' |
+    tr '[:upper:]' '[:lower:]'
