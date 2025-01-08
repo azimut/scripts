@@ -1,7 +1,5 @@
 #!/bin/bash
-
 set -eo pipefail
-
 export LC_LOCALE=C
 
 # curl http://all.api.radio-browser.info/json/stations/bycountrycodeexact/ar
