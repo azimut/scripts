@@ -9,20 +9,21 @@ usage() {
 Returns a snapshot URL for the URL provided.
 
 Usage:
-    $(basename "$0") <URL> [LATEST]
+    $(basename "$0") <URL> [FLAG]
 
 Options:
   <URL>    the url to lookup
-  LATEST   flag, if present returns latest snapshot url
+  FLAG     if present asks for a snapshot date
 
 Uses the WaybackMachine JSON API (https://archive.org/help/wayback_api.php)
 EOF
 }
 
-(($# < 1)) && usage && exit 22 # EINVAL
-(($# > 1)) &&
-    TIMESTAMP="$(dialog --clear --stdout --date-format '%Y%m%d' --calendar 'Date of snapshot:' 0 0)" ||
-    TIMESTAMP='19960101'
+case $# in
+1) TIMESTAMP='19960101' ;;
+2) TIMESTAMP="$(dialog --clear --stdout --date-format '%Y%m%d' --calendar 'Date of snapshot:' 0 0)" ;;
+*) usage && exit 22 ;; # EINVAL
+esac
 
 URL=${1%#*}     # remove fragment
 URL=${URL#*://} # remove proto
