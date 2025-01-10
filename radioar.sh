@@ -3,7 +3,7 @@ set -eo pipefail
 export LC_LOCALE=C
 
 while :; do
-    bkt --ttl=24hour -- curl 'http://all.api.radio-browser.info/json/stations/bycountrycodeexact/ar' |
+    bkt --ttl=24hour -- curl -s 'http://all.api.radio-browser.info/json/stations/bycountrycodeexact/ar' |
         jq -r 'def trim: gsub("^[ ]+|[ ]+$";"");
                unique_by(.url_resolved) |
                unique_by(.name|ascii_downcase|trim)[] |
