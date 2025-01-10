@@ -8,9 +8,9 @@ while :; do
                unique_by(.url_resolved) |
                unique_by(.name|ascii_downcase|trim)[] |
                [(.name|trim),.url_resolved] |
-               @csv' |
+               @tsv' |
         sort |
-        fzf --with-nth=1 --delimiter=, |
-        cut -f2 -d, |
+        fzf --with-nth=1 --delimiter=$'\t' |
+        cut -f2- -d$'\t' |
         xargs --no-run-if-empty mpv
 done
