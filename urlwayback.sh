@@ -20,7 +20,9 @@ EOF
 }
 
 (($# < 1)) && usage && exit 22 # EINVAL
-(($# > 1)) && TIMESTAMP='' || TIMESTAMP='19960101'
+(($# > 1)) &&
+    TIMESTAMP="$(dialog --clear --stdout --date-format '%Y%m%d' --calendar 'Date of snapshot:' 0 0)" ||
+    TIMESTAMP='19960101'
 
 URL=${1%#*}     # remove fragment
 URL=${URL#*://} # remove proto
