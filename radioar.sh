@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-URL='http://all.api.radio-browser.info/json/stations/bycountrycodeexact/ar'
+URL="http://all.api.radio-browser.info/json/stations/bycountrycodeexact/${1:-ar}"
 while :; do
     bkt --ttl=24hour -- curl -s "${URL}" |
         jq -r 'def trim: gsub("^[ ]+|[ ]+$";"");
