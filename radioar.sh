@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eo pipefail
-export LC_LOCALE=C
 
+URL='http://all.api.radio-browser.info/json/stations/bycountrycodeexact/ar'
 while :; do
-    bkt --ttl=24hour -- curl -s 'http://all.api.radio-browser.info/json/stations/bycountrycodeexact/ar' |
+    bkt --ttl=24hour -- curl -s "${URL}" |
         jq -r 'def trim: gsub("^[ ]+|[ ]+$";"");
                map(select(.lastcheckok > 0)) |
                unique_by(.url_resolved) |
@@ -12,6 +12,6 @@ while :; do
                @tsv' |
         sort |
         fzf --with-nth=1 --delimiter=$'\t' |
-        cut -f2- -d$'\t' |
+        cut -f2 |
         xargs --no-run-if-empty mpv
 done
