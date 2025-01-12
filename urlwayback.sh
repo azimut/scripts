@@ -21,7 +21,7 @@ EOF
 
 case $# in
 1) TIMESTAMP='19960101' ;;
-2) TIMESTAMP="$(dialog --clear --stdout --date-format '%Y%m%d' --calendar 'Date of snapshot:' 0 0)" ;;
+2) TIMESTAMP="$(($(dialog --clear --stdout --date-format '%Y%m%d' --calendar 'Date of snapshot:' 0 0) - 1))" ;;
 *) usage && exit 22 ;; # EINVAL
 esac
 
