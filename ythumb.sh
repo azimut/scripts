@@ -2,11 +2,8 @@
 set -eo pipefail
 
 function usage() {
-    cat <<EOF
-Returns the thumbnails urls of the given youtube video.
-
-    $(basename "$0") [URL]
-EOF
+    echo -e 'Returns the thumbnails urls of the given youtube video.\n'
+    echo -e "\t$(basename "$0") [URL]"
 }
 
 (($# != 1)) && usage && exit 1
