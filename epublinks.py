@@ -19,9 +19,10 @@ def main(epub):
         for html in htmls:
             soup = bs4.BeautifulSoup(z.read(html), "html.parser")
             for anchor in soup.find_all('a'):
-                href = anchor.get('href')
-                if href.startswith('http'):
-                    links.append(href)
+                if anchor.has_attr('href'):
+                    href = anchor.get('href')
+                    if href.startswith('http'):
+                        links.append(href)
 
     for link in sorted(set(links)):
         print(link)
