@@ -15,7 +15,7 @@ def err(msg):
 def main(epub):
     links = []
     with zipfile.ZipFile(epub, 'r') as z:
-        htmls = [ h for h in z.namelist() if h.endswith('.html') ]
+        htmls = [ h for h in z.namelist() if h.endswith('.html') or h.endswith('.xhtml') ]
         for html in htmls:
             soup = bs4.BeautifulSoup(z.read(html), "html.parser")
             for anchor in soup.find_all('a'):
