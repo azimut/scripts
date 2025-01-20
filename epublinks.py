@@ -23,7 +23,7 @@ def main(epub):
                 if href.startswith('http'):
                     links.append(href)
 
-    for link in sorted(links):
+    for link in sorted(set(links)):
         print(link)
 
 
