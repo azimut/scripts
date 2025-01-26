@@ -5,15 +5,13 @@ N=5
 INPUT="$1"
 test -f "${INPUT}"
 
-div() { echo "$(</dev/stdin) / ${1}" | bc -l; }
-round() { awk '{ print(int($0)) }'; }
 timestamp() { date -u --date=@"${1}" +%H:%M:%S; }
 seconds() {
     ffprobe -loglevel error -hide_banner -of csv=p=0 -show_entries format=duration "${1}"
 }
 
 output="$(basename "${INPUT}").mp3"
-step="$(seconds "${INPUT}" | div ${N} | round)"
+step="$(seconds "${INPUT}" | dc -e "?$N/p")"
 
 rm -f extract_tmp*jpg
 
