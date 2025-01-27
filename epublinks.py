@@ -13,7 +13,7 @@ def err(msg):
     print(f"ERROR: {msg}", file=sys.stderr)
 
 def main(epub):
-    links = []
+    links = set()
     with zipfile.ZipFile(epub, 'r') as z:
         htmls = [ h for h in z.namelist() if h.endswith('.html') or h.endswith('.xhtml') ]
         for html in htmls:
@@ -22,9 +22,9 @@ def main(epub):
                 if anchor.has_attr('href'):
                     href = anchor.get('href')
                     if href.startswith('http'):
-                        links.append(href)
+                        links.add(href)
 
-    for link in sorted(set(links)):
+    for link in sorted(links):
         print(link)
 
 
