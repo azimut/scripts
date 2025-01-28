@@ -1,17 +1,14 @@
 #!/bin/bash
-
-err() { echo "ERROR: $*" >&2; }
-usage() {
-	echo "Removes audio track from provided input file."
-	echo -e "\t$ $(basename $0) <VIDEO>"
-}
-
 set -euo pipefail
 
-(($# != 1)) && err "missing argument" && usage && exit 1
-[[ ! -s $1 ]] && err "provided file does not exists!" && usage && exit 1
+usage() {
+    echo -e "Removes audio track from provided input video file.\n"
+    echo -e "Usage:\n\t$ $(basename "$0") <VIDEO>"
+}
 
-filename="$1"
+(($# != 1)) && usage && exit 1
+[[ ! -f $1 ]] && usage && exit 1
 
-ffmpeg -i "${filename}" -map 0 -map -0:a -c copy tmp.mp4
-mv tmp.mp4 "${filename}"
+trap 'rm -f -- mutedtmp.mp4' EXIT
+ffmpeg -y -i "$1" -map 0 -map -0:a -c copy mutedtmp.mp4
+mv mutedtmp.mp4 "$1"
