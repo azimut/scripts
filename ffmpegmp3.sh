@@ -1,29 +1,33 @@
 #!/bin/bash
-set -exuo pipefail
+set -euo pipefail
 
-timestamp() { date -u --date=@"${1}" +%H:%M:%S; }
 seconds() { ffprobe -of csv=p=0 -show_entries format=duration "${1}" 2>/dev/null; }
-cleanup_thumbnails() { rm -f extract_tmp*jpg; }
+usage() {
+    echo -e "Converts a video to an .mp3 picks a thumbnail.\n"
+    echo -e "Usage:\n\t$(basename "$0") VIDEO"
+}
 
-trap 'cleanup_thumbnails' EXIT
+trap 'rm -f -- f00thumbnail*jpg' EXIT
+
+(($# != 1)) && usage && exit 1
+[[ ! -f "$1" ]] && usage && exit 1
 
 N=5 # number of thumbnails
 INPUT="$1"
-test -f "${INPUT}"
 
-# Extract Thumbnails
-step="$(seconds "${INPUT}" | dc -e "?$N/p")"
+echo "[+] Extracting $N thumbnails..."
+offset="$(seconds "${INPUT}" | dc -e "?$N/p")"
 for ((i = 0; i < N; i++)); do
     ffmpeg -hide_banner -loglevel error \
-        -ss "$(timestamp $((step * i)))" \
+        -ss "$((offset * i))" \
         -i "${INPUT}" \
         -frames:v 1 \
-        "extract_tmp${i}.jpg"
+        "f00thumbnail${i}.jpg"
 done
 
-# Create .mp3
-ffmpeg -y -hide_banner \
+echo '[+] Creating .mp3'
+ffbar -y -hide_banner \
     -i "${INPUT}" \
-    -i "$(ipickme -s 200 ./extract_tmp*jpg)" \
+    -i "$(ipickme -s 200 ./f00thumbnail*jpg)" \
     -ac 1 -c:v mjpeg -map 0:a -map 1:v \
     "$(basename "${INPUT}").mp3"
