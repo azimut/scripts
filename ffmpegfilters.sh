@@ -5,7 +5,7 @@ while true; do
     filter="$(
         ffmpeg -loglevel quiet -filters |
             tail +9 |
-            fzf |
+            fzf --tiebreak=begin |
             awk '{ print $2 }'
     )"
     ffmpeg -help filter="${filter}" 2>/dev/null |
