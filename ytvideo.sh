@@ -17,4 +17,4 @@ formats="$(
 )"
 
 set +x
-mpv --ytdl-format="${formats}" "$1"
+exec mpv --ytdl-format="${formats}" "$1"
