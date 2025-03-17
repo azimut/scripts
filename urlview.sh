@@ -55,6 +55,10 @@ http_code() {
 }
 
 case "${URL,,}" in
+"")
+    echo "ERROR: empty argument :("
+    exit 1
+    ;;
 *.wav* | *.mp3* | *.m4a*)
     mpv_site "${URL}" --player-operation-mode=pseudo-gui
     ;;
