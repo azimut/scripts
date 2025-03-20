@@ -3,10 +3,11 @@ set -euo pipefail
 
 usage() {
     echo -e "youtube-dl wrapper, with a fzf menu for selecting the url audio/video format combo.\n"
-    echo -e "Usage:\n\t$(basename "$0") URL"
+    echo -e "Usage:\n\t$(basename "$0") URL [START_TIME]}"
 }
-(($# != 1)) && usage && exit
+(($# < 1)) && usage && exit
 
+start_time="${2:-00:00:00}"
 formats="$(
     bkt --ttl 1h -- yt-dlp -F "$1" |
         grep '^[0-9]' |
@@ -16,5 +17,5 @@ formats="$(
         paste -sd+
 )"
 
-set +x
-exec mpv --ytdl-format="${formats}" "$1"
+set -x
+exec mpv --ytdl-format="${formats}" -ss "${start_time}" "$1"
