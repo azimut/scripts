@@ -18,4 +18,4 @@ formats="$(
 )"
 
 set -x
-exec mpv --ytdl-format="${formats}" -ss "${start_time}" "$1"
+exec mpv --ytdl-format="${formats}" --start="${start_time}" "$1"
