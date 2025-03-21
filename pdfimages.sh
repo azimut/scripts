@@ -1,10 +1,13 @@
 #!/bin/bash
-set -eux
+set -eu
 
 function cleanup {
-    rm -f "${tmpdir}"/*
-    rmdir "${tmpdir}"
+    if [ -n "${tmpdir:-}" ]; then
+        rm -f "${tmpdir}"/*
+        rmdir "${tmpdir}"
+    fi
 }
+
 trap cleanup EXIT
 
 function usage {
