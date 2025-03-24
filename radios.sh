@@ -3,7 +3,7 @@ set -eo pipefail
 
 URL="http://all.api.radio-browser.info/json/stations/bycountrycodeexact/${1:-ar}"
 while :; do
-    bkt --discard-failures --ttl=24hour -- curl -s "${URL}" |
+    bkt --discard-failures --ttl=24hour -- curl --fail -s "${URL}" |
         jq -r 'def trim: gsub("^[ ]+|[ ]+$";"");
                map(select(.lastcheckok > 0)) |
                unique_by(.url_resolved) |
