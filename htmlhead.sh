@@ -7,4 +7,4 @@ function usage() {
 }
 (($# != 1)) && usage && exit 1
 
-curl "$1" | pup 'head' | batcat -l html
+curl --insecure "$1" | pup 'head' | batcat -l html
