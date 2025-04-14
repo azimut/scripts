@@ -13,9 +13,9 @@ usage() {
 readarray lines < <(man -f "$1" 2>/dev/null || true)
 case "${#lines[@]}" in
 0) echo "ERROR: No man page found :/" >&2 && exit 1 ;;
-1) man "$1" ;;
+1) exec man "$1" ;;
 *)
     section="$(printf '%s' "${lines[@]}" | fzf | awk '{ print substr($2,2,1) }')"
-    man "${section}" "$1"
+    exec man "${section}" "$1"
     ;;
 esac
