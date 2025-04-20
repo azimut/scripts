@@ -1,0 +1,6 @@
+#!/usr/bin/dc
+
+16o
+2i
+[Enter Binary: ]P
+?p

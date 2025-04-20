@@ -1,0 +1,6 @@
+#!/usr/bin/dc
+
+2o
+16i
+[Enter Hex: ]P
+?p
