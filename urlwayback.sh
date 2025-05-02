@@ -25,8 +25,7 @@ case $# in
 *) usage && exit 22 ;; # EINVAL
 esac
 
-URL=${1%#*}     # remove fragment
-URL=${URL#*://} # remove proto
+URL=${1%#*} # remove fragment
 curl -fGs -d "timestamp=${TIMESTAMP}" --data-urlencode "url=${URL}" 'http://archive.org/wayback/available' |
     jq -r '.archived_snapshots.closest | .status + " " + .url' |
     while read -r status url; do
