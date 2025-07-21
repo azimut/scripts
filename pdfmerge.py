@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import pymupdf
 import os
@@ -49,8 +49,8 @@ def obtain_ranges(pdf_paths: list[str]) -> list[Pdf]:
     for idx, pdf_path in enumerate(pdf_paths):
         pdf = Pdf(pdf_path, tk.IntVar(), tk.IntVar())
         tk.Label(root, text=pdf.filename).grid(row=idx)
-        tk.Entry(root, textvariable=pdf.start_widget).grid(row=idx,column=1)
-        tk.Entry(root, textvariable=pdf.end_widget).grid(row=idx,column=2)
+        tk.Entry(root, justify="center", width=3, textvariable=pdf.start_widget).grid(row=idx,column=1)
+        tk.Entry(root, justify="center", width=3, textvariable=pdf.end_widget).grid(row=idx,column=2)
         pdfs.append(pdf)
     root.bind('<Escape>', close_window)
     root.mainloop()
