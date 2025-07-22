@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 import pymupdf
+import argparse
 import os
 import sys
 import tkinter as tk
 from dataclasses import dataclass, field
+from typing import Tuple
 
 @dataclass
 class Pdf:
@@ -18,36 +20,34 @@ class Pdf:
         self.filename = os.path.basename(self.fullpath)
 
 def main():
-    paths = process_argv()
-    pdfs = obtain_ranges(paths)
+    paths, start, end = process_argv()
+    pdfs = obtain_ranges(paths, start, end)
     generate_pdf(pdfs)
 
-def process_argv() -> list[str]:
-    if len(sys.argv) < 2:
-        print("ERROR: Not enough arguments")
-        usage()
-        sys.exit(1)
+def process_argv() -> Tuple[list[str],int,int]:
+    parser = argparse.ArgumentParser(
+        description="Merges pdf files given as an argument into one.",
+    )
+    parser.add_argument('pdfs', nargs='+')
+    parser.add_argument('-s', '--start', default=0, type=int, help='Number of pages to drop at the START of the pdf file.')
+    parser.add_argument('-e', '--end', default=0, type=int, help='Number of pages to drop at the END of the pdf file.')
+    args = parser.parse_args()
     pdfs = []
-    for pdf in sys.argv[1:]:
+    for pdf in args.pdfs:
         if not os.path.exists(pdf):
             print(f"ERROR: given argument is not a pdf path: {pdf}")
             usage()
             sys.exit(1)
         pdfs.append(pdf)
-    return pdfs
+    return pdfs, args.start, args.end
 
-def usage():
-    print("Merges pdf files given as an argument into one. Asks for START and END pages to drop from each.")
-    print("Usage:")
-    print(f"\t{sys.argv[0]} [PDFS]")
-
-def obtain_ranges(pdf_paths: list[str]) -> list[Pdf]:
+def obtain_ranges(pdf_paths: list[str], start: int, end: int) -> list[Pdf]:
     def close_window(event):
         root.destroy()
     pdfs = []
     root = tk.Tk()
     for idx, pdf_path in enumerate(pdf_paths):
-        pdf = Pdf(pdf_path, tk.IntVar(), tk.IntVar())
+        pdf = Pdf(pdf_path, tk.IntVar(value=start), tk.IntVar(value=end))
         tk.Label(root, text=pdf.filename).grid(row=idx)
         tk.Entry(root, justify="center", width=3, textvariable=pdf.start_widget).grid(row=idx,column=1)
         tk.Entry(root, justify="center", width=3, textvariable=pdf.end_widget).grid(row=idx,column=2)
