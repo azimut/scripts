@@ -29,8 +29,8 @@ def process_argv() -> Tuple[list[str],int,int]:
         description="Merges pdf files given as an argument into one.",
     )
     parser.add_argument('pdfs', nargs='+')
-    parser.add_argument('-s', '--start', default=0, type=int, help='Number of pages to drop at the START of the pdf file.')
-    parser.add_argument('-e', '--end', default=0, type=int, help='Number of pages to drop at the END of the pdf file.')
+    parser.add_argument('-s', '--start', default=0, type=int, help='Number of pages to drop at the START.')
+    parser.add_argument('-e', '--end', default=0, type=int, help='Number of pages to drop at the END.')
     args = parser.parse_args()
     pdfs = []
     for pdf in args.pdfs:
