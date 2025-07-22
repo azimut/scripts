@@ -46,6 +46,9 @@ def obtain_ranges(pdf_paths: list[str], start: int, end: int) -> list[Pdf]:
         root.destroy()
     pdfs = []
     root = tk.Tk()
+    root.title(sys.argv[0])
+    root.resizable(False,False)
+    root.eval('tk::PlaceWindow . center')
     for idx, pdf_path in enumerate(pdf_paths):
         pdf = Pdf(pdf_path, tk.IntVar(value=start), tk.IntVar(value=end))
         tk.Label(root, text=pdf.filename).grid(row=idx)
