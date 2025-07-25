@@ -25,6 +25,7 @@ convert \
     +repage \
     "${BACK}" \
     +swap \
+    -geometry +20+0 \
     -gravity Center \
     -compose Multiply \
     -composite \
