@@ -16,8 +16,9 @@ freeze \
     -o code.png \
     "${CODE}"
 
+# https://usage.imagemagick.org/compose/
 convert \
-    \( code.png -resize 70%x \) \
+    \( code.png -resize 50%x -alpha set -background none -channel A -evaluate multiply 0.8 +channel \) \
     \( +clone -background black -shadow 80x20+20+0 \) \
     +swap \
     -background none \
@@ -27,6 +28,8 @@ convert \
     +swap \
     -geometry +20+0 \
     -gravity Center \
-    -compose Multiply \
+    -compose Over \
     -composite \
     "${OUTPUT}"
+
+exec sxiv "${OUTPUT}"
