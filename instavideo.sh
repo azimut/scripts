@@ -20,7 +20,7 @@ magick \
 magick \
     -size 660x880 xc:transparent \
     -draw "fill black roundrectangle 0,0 %[fx:w],%[fx:h] 40,40" \
-    -channel alpha -fx 'if(a, 0.75, 0)' +channel \
+    -channel alpha -fx 'if(a, 0.65, 0)' +channel \
     -font "${FONT}" \
     -draw "fill white font-size 60 text %[fx:w*.08],%[fx:h*.83] '${TITLE}'" \
     -draw "fill gray font-size 50 text %[fx:w*.08],%[fx:h*.89] '${AUTHOR}'" \
