@@ -9,9 +9,13 @@ AUDIO='/home/sendai/Forced Motion - Pinback [De3DpI7YNUs].webm'
 VIDEO='/home/sendai/Videos/The Computer Chronicles - Operating Systems (1984) [V5S8kFvXpo4].webm'
 VIDEO='/home/sendai/Videos/Sisters.with.Transistors.2020.1080p.x265.AAC.MVGroup.org.mkv'
 
-# "I need the combination to unlock your code"
-#trap 'rm -f '"${0##*/}.png" EXIT
+trap 'rm -vf '"${0##*/}.cover.png" EXIT
 rm -vf "${0##*/}.mp4"
+
+magick \
+    "${COVER}" -gravity center -crop '%[fx:w]x%[fx:w]+0+0' -resize 550x -alpha set \
+    \( +clone -size '%[fx:w]x%[fx:h]' xc:none +swap +delete -draw 'roundrectangle 0,0,%[fx:w],%[fx:h],15,15' \) \
+    -compose DstIn -composite "${0##*/}.cover.png"
 
 magick \
     -size 660x880 xc:transparent \
@@ -20,7 +24,7 @@ magick \
     -font "${FONT}" \
     -draw "fill white font-size 60 text %[fx:w*.08],%[fx:h*.83] '${TITLE}'" \
     -draw "fill gray font-size 50 text %[fx:w*.08],%[fx:h*.89] '${AUTHOR}'" \
-    \( "${COVER}" -gravity center -crop '%[fx:w]x%[fx:w]+0+0' -resize 550x \) \
+    "${0##*/}.cover.png" \
     -gravity north -geometry '+0+%[fx:v.h*.1]' -composite \
     "${0##*/}.png"
 
