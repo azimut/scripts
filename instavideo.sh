@@ -1,5 +1,5 @@
 #!/bin/sh
-set -xe
+set -xeu
 
 AUTHOR='Pinback'
 TITLE='Forced Motion'
@@ -46,4 +46,4 @@ ffmpeg -y \
             shortest=false           [outv];
       [1:a] acopy                    [outa]
     " \
-    -map '[outv]' -map '[outa]' "${0##*/}.mp4"
+    -map '[outv]' -map '[outa]' -metadata "title=${AUTHOR} - ${TITLE}" "${0##*/}.mp4"
