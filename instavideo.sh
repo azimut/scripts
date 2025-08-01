@@ -18,9 +18,8 @@ magick \
     -compose DstIn -composite "${0##*/}.cover.png"
 
 magick \
-    -size 660x880 xc:transparent \
-    -draw "fill black roundrectangle 0,0 %[fx:w],%[fx:h] 40,40" \
-    -channel alpha -fx 'if(a, 0.65, 0)' +channel \
+    -size 660x880 xc:none \
+    -draw "fill rgba(0,0,0,0.65) roundrectangle 0,0 %[fx:w],%[fx:h] 40,40" \
     -font "${FONT}" \
     -draw "fill white font-size 60 text %[fx:w*.08],%[fx:h*.83] '${TITLE}'" \
     -draw "fill gray font-size 50 text %[fx:w*.08],%[fx:h*.89] '${AUTHOR}'" \
