@@ -22,7 +22,6 @@ magick \
     -draw "fill gray font-size 50 text %[fx:w*.08],%[fx:h*.89] '${AUTHOR}'" \
     \( "${COVER}" -gravity center -crop '%[fx:w]x%[fx:w]+0+0' -resize 550x \) \
     -gravity north -geometry '+0+%[fx:v.h*.1]' -composite \
-    -resize 40% \
     "${0##*/}.png"
 
 # -f lavfi -i 'color=color=red:size=720x1280'
@@ -31,7 +30,7 @@ ffmpeg -y \
     -ss 00:00:01 -t 22 -i "${AUDIO}" \
     -i "${0##*/}.png" \
     -filter_complex "
-      [2:v] null                     [cover];
+      [2:v] scale=in_w/3:in_h/3      [cover];
       [0:v]
         setpts=PTS*1.7,
         crop=(in_h*(9/16)):in_h,
