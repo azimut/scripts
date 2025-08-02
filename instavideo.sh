@@ -21,10 +21,10 @@ magick \
     -size 660x880 xc:none \
     -draw "fill rgba(0,0,0,0.65) roundrectangle 0,0 %[fx:w],%[fx:h] 40,40" \
     -font "${FONT}" \
-    -draw "fill white font-size 60 text %[fx:w*.08],%[fx:h*.83] '${TITLE}'" \
-    -draw "fill gray font-size 50 text %[fx:w*.08],%[fx:h*.89] '${AUTHOR}'" \
+    -draw "fill white font-size 60 text %[fx:w*0.08],%[fx:h*0.83] '${TITLE}'" \
+    -draw "fill gray  font-size 50 text %[fx:w*0.08],%[fx:h*0.89] '${AUTHOR}'" \
     "${0##*/}.cover.png" \
-    -gravity north -geometry '+0+%[fx:v.h*.1]' -composite \
+    -gravity north -geometry '+0+%[fx:v.h*0.1]' -composite \
     "${0##*/}.png"
 
 # -f lavfi -i 'color=color=red:size=720x1280'
