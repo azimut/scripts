@@ -1,26 +1,37 @@
 #!/bin/fish
 
-argparse --min-args=2 'h/help' 's/scale=' 'a/alpha=' -- $argv
-or exit
+set OUTPUT out.png
+trap "rm -vf $OUTPUT code.png" EXIT
+
+set -- script (basename (status -f))
+function usage
+    echo "$script - Overlays an image of source code over the given image."
+    echo "Usage:  $script [arguments] CODE IMAGE" >&2
+    echo
+    echo "  -a/--alpha - Code alpha transparency %."
+    echo "  -s/--scale - Code scale."
+    echo "  -f/--font  - Font name."
+    echo "  -h/--help  - Print help and exit."
+end
+
+argparse -n $script -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 'h/help' -- $argv || usage && exit 1
+set -q _flag_help  || usage && exit
 set -q _flag_scale || set _flag_scale 20
 set -q _flag_alpha || set _flag_alpha 0.6
+set -q _flag_font  || set _flat_font 'LiberationMono'
 
 set CODE $argv[1]
 set BACK $argv[2]
-set OUTPUT out.png
-
-trap "rm -vf $OUTPUT code.png" EXIT
 
 and freeze \
     --line-height 1.4 \
     --font.size 11 \
     --border.color "#515151" --border.radius 8 --border.width 4 \
-    --font.family LiberationMono \
+    --font.family $_flag_font \
     -t github-dark \
     -o code.png \
     $CODE
 
-# https://usage.imagemagick.org/compose/
 and convert \
     \( code.png -resize $_flag_scale%x -alpha set -background none -channel A -evaluate multiply $_flag_alpha +channel \) \
     \( +clone -background black -shadow 80x20+20+0 \) \
