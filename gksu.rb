@@ -9,7 +9,7 @@ path = File.expand_path(ARGV[0])
 safepath = path.shellescape
 cmd = ARGV[1..].map(&:shellescape).join(' ')
 
-puts "[*] Running #{cmd}"
+puts "[*] Running #{cmd} #{safepath}"
 if File.owned? path
   system("#{cmd} #{safepath}", exception: true)
 elsif system('sudo -n true')
