@@ -11,19 +11,17 @@ function usage
     echo "  -a/--alpha - Code alpha transparency %."
     echo "  -s/--scale - Code scale."
     echo "  -f/--font  - Font name."
-    echo "  -h/--help  - Print help and exit."
 end
 
-argparse -n $script -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 'h/help' -- $argv || usage && exit 1
-set -q _flag_help  || usage && exit
+argparse -n $script -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' -- $argv || usage && exit 1
 set -q _flag_scale || set _flag_scale 20
 set -q _flag_alpha || set _flag_alpha 0.6
-set -q _flag_font  || set _flat_font 'LiberationMono'
+set -q _flag_font  || set _flag_font 'LiberationMono'
 
 set CODE $argv[1]
 set BACK $argv[2]
 
-and freeze \
+freeze \
     --line-height 1.4 \
     --font.size 11 \
     --border.color "#515151" --border.radius 8 --border.width 4 \
