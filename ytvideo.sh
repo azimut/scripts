@@ -7,7 +7,12 @@ usage() {
 }
 (($# < 1)) && usage && exit
 
-start_time="${2:-00:00:00}"
+start_time="${2:-}"
+
+if [[ -n "${start_time}" ]]; then
+    start_time="--start=${start_time}"
+fi
+
 formats="$(
     bkt --ttl 1h -- yt-dlp -F "$1" |
         grep '^[0-9]' |
@@ -18,4 +23,4 @@ formats="$(
 )"
 
 set -x
-exec mpv --ytdl-format="${formats}" --start="${start_time}" "$1"
+exec mpv --ytdl-format="${formats}" ${start_time} "$1"
