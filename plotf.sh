@@ -2,8 +2,8 @@
 set -e
 GNUTERM=dumb gnuplot -e "
 unset key;
-unset border;
-set tics nomirror axis;
+set border 3;
+set tics nomirror scale 0;
 set datafile separator comma;
 set style data boxes;
 set style fill solid border -1;

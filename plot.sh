@@ -5,7 +5,7 @@ GNUTERM=dumb gnuplot -e "
 unset key;
 set size square;
 set border 3;
-set tics nomirror;
+set tics nomirror scale 0;
 set datafile separator comma;
 plot '-' pointtype 0;
 "
