@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -e
 GNUTERM=dumb gnuplot -e "
 unset key;
 unset border;
