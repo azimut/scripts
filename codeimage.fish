@@ -1,7 +1,8 @@
 #!/bin/fish
 
+#set fish_trace 1
 set OUTPUT out.png
-trap "rm -vf $OUTPUT code.png" EXIT
+trap "or rm -vf $OUTPUT code.png" EXIT
 
 set -- script (basename (status -f))
 function usage
