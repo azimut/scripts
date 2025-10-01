@@ -12,6 +12,7 @@ function usage
     echo "  -s/--scale - Code scale.              Default: 20"
     echo "  -f/--font  - Code font name.          Default: LiberationMono"
     echo "  -t/--theme - Code color theme.        Default: github-dark"
+    echo "  -l/--lang  - Code language."
     echo
 end
 
@@ -25,6 +26,7 @@ set CODE $argv[1]
 set BACK $argv[2]
 
 freeze \
+    (set -q _flag_lang; and echo -- -l; and echo $_flag_lang) \
     --line-height 1.4 \
     --font.size 11 \
     --border.color "#515151" --border.radius 8 --border.width 4 \
