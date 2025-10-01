@@ -15,7 +15,7 @@ function usage
     echo
 end
 
-argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 't/theme=' -- $argv || usage && exit 1
+argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 't/theme=' 'l/lang=' -- $argv || { usage ; exit 1 }
 set -q _flag_scale || set _flag_scale 20
 set -q _flag_alpha || set _flag_alpha 0.6
 set -q _flag_font  || set _flag_font LiberationMono
