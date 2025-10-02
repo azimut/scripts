@@ -9,19 +9,21 @@ function usage
     echo "$script - Overlays an image of source code over the given image."
     echo "Usage:  $script [arguments] CODE IMAGE" >&2
     echo
-    echo "  -a/--alpha - Code alpha transparency. Default: 0.6"
-    echo "  -s/--scale - Code scale.              Default: 20"
-    echo "  -f/--font  - Code font name.          Default: LiberationMono"
-    echo "  -t/--theme - Code color theme.        Default: github-dark"
-    echo "  -l/--lang  - Code language."
+    echo "  -a/--alpha  - Code alpha transparency. Default: 0.6"
+    echo "  -s/--scale  - Code scale.              Default: 20"
+    echo "  -f/--font   - Code font name.          Default: LiberationMono"
+    echo "  -t/--theme  - Code color theme.        Default: github-dark"
+    echo "  -l/--lang   - Code language."
+    echo "  -S/--shadow - Code dropdown shadow.    Default: 80."
     echo
 end
 
-argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 't/theme=' 'l/lang=' -- $argv || { usage ; exit 1 }
-set -q _flag_scale || set _flag_scale 20
-set -q _flag_alpha || set _flag_alpha 0.6
-set -q _flag_font  || set _flag_font LiberationMono
-set -q _flag_theme || set _flag_theme github-dark
+argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 't/theme=' 'l/lang=' 'S/shadow=!_validate_int' -- $argv || begin; usage ; exit 1; end;
+set -q _flag_shadow || set _flag_shadow 80
+set -q _flag_scale  || set _flag_scale 20
+set -q _flag_alpha  || set _flag_alpha 0.6
+set -q _flag_font   || set _flag_font LiberationMono
+set -q _flag_theme  || set _flag_theme github-dark
 
 set CODE $argv[1]
 set BACK $argv[2]
@@ -38,7 +40,7 @@ freeze \
 
 and convert \
     \( code.png -resize $_flag_scale%x -alpha set -background none -channel A -evaluate multiply $_flag_alpha +channel \) \
-    \( +clone -background black -shadow 80x20+20+0 \) \
+    \( +clone -background black -shadow {$_flag_shadow}x20+20+0 \) \
     +swap \
     -background none \
     -layers merge \
