@@ -13,12 +13,13 @@ function usage
     echo "  -s/--scale  - Code scale.              Default: 20"
     echo "  -f/--font   - Code font name.          Default: LiberationMono"
     echo "  -t/--theme  - Code color theme.        Default: github-dark"
-    echo "  -l/--lang   - Code language."
+    echo "  -l/--lang   - Code language.           eg: haskell"
+    echo "  -L/--lines  - Code lines.              eg: 2,20"
     echo "  -S/--shadow - Code dropdown shadow.    Default: 80."
     echo
 end
 
-argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 't/theme=' 'l/lang=' 'S/shadow=!_validate_int' -- $argv || begin; usage ; exit 1; end;
+argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 't/theme=' 'l/lang=' 'L/lines=' 'S/shadow=!_validate_int' -- $argv || begin; usage ; exit 1; end;
 set -q _flag_shadow || set _flag_shadow 80
 set -q _flag_scale  || set _flag_scale 20
 set -q _flag_alpha  || set _flag_alpha 0.6
@@ -29,7 +30,8 @@ set CODE $argv[1]
 set BACK $argv[2]
 
 freeze \
-    (set -q _flag_lang; and echo -- -l; and echo $_flag_lang) \
+    (set -q _flag_lang ; and echo -- -l     ; and echo $_flag_lang) \
+    (set -q _flag_lines; and echo -- --lines; and echo $_flag_lines) \
     --line-height 1.4 \
     --font.size 11 \
     --border.color "#515151" --border.radius 8 --border.width 4 \
