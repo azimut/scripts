@@ -10,6 +10,8 @@ usage() {
 (($# == 2)) && man "$1" "$2" && exit 0
 (($# != 1)) && usage && exit 1
 
+[[ $1 == *.* ]] && exec man "$1"
+
 readarray lines < <(man -f "$1" 2>/dev/null || true)
 case "${#lines[@]}" in
 0) echo "ERROR: No man page found :/" >&2 && exit 1 ;;
