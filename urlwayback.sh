@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
+trap 'echo ERROR: in line $LINENO' ERR
 
 warn() { printf "WARNING: %s\n\n" "$*" >&2; }
 err() { printf "ERROR: %s\n" "$*" >&2; }
