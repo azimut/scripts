@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-    echo -e "Removes audio track from provided input video file.\n"
+    echo -e "Mono audio track from provided input video file.\n"
     echo -e "Usage:\n\t$ $(basename "$0") <VIDEO>"
 }
 
@@ -13,5 +13,5 @@ extension="${1##*.}"
 outfile="mutedtmp.${extension}"
 
 trap 'rm -f -- "'"${outfile}"'"' EXIT
-ffmpeg -y -i "$1" -map 0 -map -0:a -c copy "${outfile}"
+ffmpeg -y -i "$1" -c:v copy -ac 1 "${outfile}"
 mv "${outfile}" "$1"
