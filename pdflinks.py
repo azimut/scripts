@@ -4,10 +4,14 @@ import pymupdf
 import sys
 
 
+def debug(msg):
+    print(msg, file=sys.stderr)
+
+
 def usage():
-    print("Lists all links found in pdf. NO OCR.")
-    print("Usage:")
-    print(f"\t{sys.argv[0]} PDF_FILE")
+    debug("Lists all links found in pdf. NO OCR.")
+    debug("Usage:")
+    debug(f"\t{sys.argv[0]} PDF_FILE")
 
 
 def main():
@@ -25,7 +29,7 @@ def main():
                 case _:
                     print("?????", link)
     if len(ulinks) == 0:
-        print("No links found!")
+        debug("No links found!")
     else:
         for link in sorted(ulinks):
             print(link)
