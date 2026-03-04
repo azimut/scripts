@@ -2,6 +2,7 @@
 
 import pymupdf
 import sys
+import os
 
 
 def debug(msg):
@@ -11,7 +12,7 @@ def debug(msg):
 def usage():
     debug("Lists all links found in pdf. NO OCR.")
     debug("Usage:")
-    debug(f"\t{sys.argv[0]} PDF_FILE")
+    debug(f"\t{os.path.basename(sys.argv[0])} PDF_FILE")
 
 
 def main():
