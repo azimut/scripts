@@ -12,11 +12,6 @@ yad --form --escape-ok --title="magick thumbnail" \
     --field="Thumbnail:":FL \
     --field="Background:":CHK |
     while IFS='|' read -r AUTHOR TITLE COVER BACKGROUND; do
-        # Exit on invalid thumbnail
-        if [[ ! ($COVER == *jpg || $COVER == *png || $COVER == *jpeg || $COVER == *webp) ]]; then
-            echo "ERROR: wrong thumbnail extension!"
-            break
-        fi
         # Square it + Bevel
         magick \
             "${COVER}" \
