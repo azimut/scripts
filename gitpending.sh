@@ -1,8 +1,11 @@
 #!/bin/bash
 set -e
-BASEDIR="${HOME}/projects"
+BASEDIR=(
+    "${HOME}/projects"
+    "${HOME}/.emacs.d"
+)
 
-bkt --ttl 60m --discard-failures -- find "${BASEDIR}" -type d -name '.git' |
+bkt --ttl 60m --discard-failures -- find "${BASEDIR[@]}" -type d -name '.git' |
     while read -r gitdir; do
         [[ ${gitdir} == **thirdparty** || ${gitdir} == *texts* ]] && continue
         dir="${gitdir%/.git}"
