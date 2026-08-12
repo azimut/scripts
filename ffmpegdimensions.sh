@@ -1,24 +1,26 @@
 #!/bin/bash
 
-# Description: show dimensions of all .mp4 videos under
+# Description: show dimensions and duration of all .mp4 videos under $PWD
 
 set -euo pipefail
 
-getdimensions() {
+getmetadata() {
     video="$1"
-    dimensions="$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${video}" | head -1)"
-    printf '%5dx%-4d\t'"'"'%s'"'"'\n' \
-        "${dimensions%x*}" \
-        "${dimensions#*x}" \
-        "${video#*/}"
+    ffprobe -v error -select_streams v:0 -show_entries stream=width,height,duration -of csv=s=,:p=0 "${video}" |
+        while IFS=, read -r width height seconds; do
+            duration="$(date --utc --date="@${seconds}" '+%H:%M:%S')"
+            printf '%5dx%-4d\t%10s\t'"'"'%s'"'"'\n' \
+                   "${width}" "${height}" "${duration}" "${video#*/}"
+        done
 }
-export -f getdimensions
+export -f getmetadata
 
 (($# == 1)) && {
-    getdimensions "$1"
+    getmetadata "$1"
     exit 0
 }
 
-find . -regextype egrep -iregex '.*(mp4|webm|mkv)' -print0 | sort -zn |
+find . -regextype egrep -iregex '.*(mp4|webm|mkv)' -print0 |
+    sort -zn |
     xargs -I{} -n1 -0 -P2 -r \
-        bash -c 'getdimensions "{}"'
+        bash -c 'getmetadata "{}"'
