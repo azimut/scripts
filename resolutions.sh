@@ -9,3 +9,7 @@ for ((i = 40; i < 400; i = i + 20)); do
     printf " %dx%d" $((4 * i)) $((3 * i))
 done
 echo
+echo -n " 4:5 -"
+for ((i = 64; i < 400; i = i + 2)); do
+    printf " %dx%d" $((4 * i)) $((5 * i))
+done
