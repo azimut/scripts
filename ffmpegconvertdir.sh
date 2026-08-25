@@ -12,7 +12,7 @@ DEFAULT_ARATE='22050'
 info() {
 	notify-send -t "$((5 * 1000))" -- \
 		"${PROGNAME}" \
-		"<span color='#57dafd' font='20px'>${1}</span>"
+		"<span color='#57dafd' font='20px'>${1}</span>" || true
 }
 
 usage() {
