@@ -4,7 +4,7 @@ set -exuo pipefail
 CODE="${1}"
 BACK="${2}"
 
-rm -f code.png code-trans.png
+trap "rm -vf code.png code-trans.png" EXIT
 
 freeze \
     --line-height 1.4 \
@@ -23,7 +23,7 @@ ffmpeg -y -nostats -hide_banner -nostdin \
     -i code-trans.png \
     -filter_complex "
       [0:v] null                [back];
-      [1:v] scale=in_w/2:in_h/2 [cover];
+      [1:v] scale=in_w/2.4:in_h/2.4 [cover];
       [back][cover]
         overlay=
             x=((W/2)-(w/2)):
@@ -32,4 +32,4 @@ ffmpeg -y -nostats -hide_banner -nostdin \
     -metadata "title=$(basename "${CODE}")" \
     "${CODE##*/}.mp4"
 
-exec mpv "${CODE##*/}.mp4"
+mpv "${CODE##*/}.mp4"
