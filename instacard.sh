@@ -1,20 +1,19 @@
 #!/bin/bash
 set -xue
 
-FONT='Spotify-Mix-Regular' # see ~/.local/share/fonts/*.ttf
-
-trap 'rm -vf '"${0##*/}.cover.png" EXIT
+FONT='Spotify-Mix' # see ~/.local/share/fonts/*.ttf
 
 yad --form --escape-ok --title="magick thumbnail" \
     --image-filter --add-preview \
     --field="Author" \
     --field="Title" \
     --field="Thumbnail:":FL \
-    --field="Background:":CHK \
+    --field="Background":CHK \
+    --field="Cleanup":CHK \
     --field="Title:":CLR \
     --field="Author:":CLR \
-    '' '' '' FALSE '#ffffff' '#808080' |
-    while IFS='|' read -r AUTHOR TITLE COVER BACKGROUND TCOLOR ACOLOR; do
+    '' '' '' FALSE TRUE '#ffffff' '#808080' |
+    while IFS='|' read -r AUTHOR TITLE COVER BACKGROUND CLEANUP TCOLOR ACOLOR; do
         # Square it + Bevel
         magick \
             "${COVER}" \
@@ -37,9 +36,8 @@ yad --form --escape-ok --title="magick thumbnail" \
             magick \
                 -size 660x880 xc:none \
                 -draw "fill rgba(0,0,0,0.65) roundrectangle 0,0 %[fx:w],%[fx:h] 40,40" \
-                -font "${FONT}" \
-                -draw "fill ${TCOLOR} font-size 60 text %[fx:w*0.08],%[fx:h*0.83] '${TITLE}'" \
-                -draw "fill ${ACOLOR} font-size 50 text %[fx:w*0.08],%[fx:h*0.89] '${AUTHOR}'" \
+                -font "${FONT}-Bold" -draw "fill ${TCOLOR} font-size 60 text %[fx:w*0.08],%[fx:h*0.83] '${TITLE}'" \
+                -font "${FONT}-Regular" -draw "fill ${ACOLOR} font-size 50 text %[fx:w*0.08],%[fx:h*0.89] '${AUTHOR}'" \
                 "${0##*/}.cover.png" \
                 -gravity north -geometry '+0+%[fx:v.h*0.1]' -composite \
                 "${0##*/}.png"
@@ -47,12 +45,12 @@ yad --form --escape-ok --title="magick thumbnail" \
             magick \
                 "${0##*/}.cover.png" \
                 -gravity South -background transparent -splice 0x100 \
-                -font "${FONT}" \
-                -pointsize 40 -fill "${TCOLOR}" -annotate +0+25 "${TITLE}" \
-                -pointsize 30 -fill "${ACOLOR}" -annotate +0+0 "${AUTHOR}" \
+                -font "${FONT}-Bold" -pointsize 40 -fill "${TCOLOR}" -annotate +0+30 "${TITLE}" \
+                -font "${FONT}-Regular" -pointsize 30 -fill "${ACOLOR}" -annotate +0+0 "${AUTHOR}" \
                 "${0##*/}.png"
         fi
 
+        [[ $CLEANUP == "TRUE" ]] && rm -vf "${0##*/}.cover.png"
         sxiv "${0##*/}.png"
 
     done
