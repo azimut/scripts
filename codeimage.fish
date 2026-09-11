@@ -60,4 +60,4 @@ and convert \
     -composite \
     $OUTPUT
 
-and sxiv $OUTPUT
+and nsxiv $OUTPUT
