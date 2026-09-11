@@ -17,16 +17,19 @@ function usage
     echo "  -l/--lang     - Code language.           eg: haskell"
     echo "  -L/--lines    - Code lines.              eg: 2,20"
     echo "  -S/--shadow   - Code dropdown shadow.    Default: 80."
+    echo "  -H/--height   - Code line height.        Default: 1.0"
     echo
 end
 
-argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'f/font=' 'F/fontsize=!_validate_int' 't/theme=' 'l/lang=' 'L/lines=' 'S/shadow=!_validate_int' -- $argv || begin; usage ; exit 1; end;
+argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'H/height=' 'f/font=' 'F/fontsize=!_validate_int' 't/theme=' 'l/lang=' 'L/lines=' 'S/shadow=!_validate_int' -- $argv || begin; usage ; exit 1; end;
 set -q _flag_shadow   || set _flag_shadow 80
 set -q _flag_scale    || set _flag_scale 20
 set -q _flag_alpha    || set _flag_alpha 0.6
 set -q _flag_font     || set _flag_font LiberationMono
 set -q _flag_theme    || set _flag_theme github-dark
 set -q _flag_fontsize || set _flag_fontsize 10
+set -q _flag_height   || set _flag_height 1.0
+
 
 set CODE $argv[1]
 set BACK $argv[2]
@@ -34,7 +37,7 @@ set BACK $argv[2]
 freeze \
     (set -q _flag_lang ; and echo -- -l     ; and echo $_flag_lang) \
     (set -q _flag_lines; and echo -- --lines; and echo $_flag_lines) \
-    -m 0 --line-height 1.4 \
+    -m 0 --line-height $_flag_height \
     --font.size $_flag_fontsize \
     --border.color "#515151" --border.radius 8 --border.width 4 \
     --font.family $_flag_font \
