@@ -18,10 +18,13 @@ function usage
     echo "  -L/--lines    - Code lines.              eg: 2,20"
     echo "  -S/--shadow   - Code dropdown shadow.    Default: 80."
     echo "  -H/--height   - Code line height.        Default: 1.0"
+    echo "  -b/--blur     - Background image blur    eg: 8"
+    echo "  -n/--negate   - Negate code image"
     echo
 end
 
-argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'H/height=' 'f/font=' 'F/fontsize=!_validate_int' 't/theme=' 'l/lang=' 'L/lines=' 'S/shadow=!_validate_int' -- $argv || begin; usage ; exit 1; end;
+argparse -N2 -X2 's/scale=!_validate_int' 'a/alpha=' 'H/height=' 'f/font=' 'F/fontsize=!_validate_int' 't/theme=' 'l/lang=' 'L/lines=' 'S/shadow=!_validate_int' 'b/blur=' 'n/negate' -- $argv || begin; usage ; exit 1; end;
+
 set -q _flag_shadow   || set _flag_shadow 80
 set -q _flag_scale    || set _flag_scale 20
 set -q _flag_alpha    || set _flag_alpha 0.6
@@ -29,7 +32,6 @@ set -q _flag_font     || set _flag_font LiberationMono
 set -q _flag_theme    || set _flag_theme github-dark
 set -q _flag_fontsize || set _flag_fontsize 10
 set -q _flag_height   || set _flag_height 1.0
-
 
 set CODE $argv[1]
 set BACK $argv[2]
@@ -46,13 +48,13 @@ freeze \
     $CODE
 
 and convert \
-    \( code.png -resize $_flag_scale%x -alpha set -background none -channel A -evaluate multiply $_flag_alpha +channel \) \
+    \( code.png -resize $_flag_scale%x -alpha set -background none -channel A -evaluate multiply $_flag_alpha +channel (set -q _flag_negate; and echo -- -negate) \) \
     \( +clone -background black -shadow {$_flag_shadow}x20+20+0 \) \
     +swap \
     -background none \
     -layers merge \
     +repage \
-    $BACK \
+    \( $BACK (set -q _flag_blur; and echo -- -blur; and echo 0x{$_flag_blur}) \) \
     +swap \
     -geometry +20+0 \
     -gravity Center \
