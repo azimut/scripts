@@ -17,7 +17,7 @@ timestamp="$2"
 format="${3:-bestvideo}"
 
 ffmpeg -nostdin -hide_banner -ss "${timestamp}" \
-    -i "$(youtube-dl -f "${format}" --get-url --no-playlist "${video_url}")" \
+    -i "$(yt-dlp -f "${format}" --get-url --no-playlist "${video_url}")" \
     -vframes 1 \
     -q:v 2 \
     -y \
