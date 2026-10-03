@@ -13,5 +13,5 @@ while true; do
             cut -f1 -d' '
     )"
     [[ -z "${effect}" ]] && break
-    "${SOX}" --help-effect "${effect}" 2>/dev/null | sed '1,3d' | less
+    MANPAGER="less -p ^[[:space:]]{7}${effect}[[:space:]]" man sox
 done
